@@ -1,0 +1,47 @@
+project 3:
+AWS HealthCare Project
+
+overview:
+“I designed a hospital notification system using AWS.
+I created a custom VPC using CloudFormation, launched an EC2 instance inside it, and used Amazon SNS to send notifications to patients.
+The system follows least-privilege IAM access, uses CloudWatch for monitoring, and all resources are cleaned up properly to avoid unnecessary costs.”
+
+architecture:
+“I used CloudFormation to create a VPC with subnets,IGW and route tables.
+An EC2 instance runs inside the VPC and publishes messages to an SNS topic to notify patients.
+IAM roles are attached to the EC2 instance so it can publish to SNS securely without access keys.
+CloudWatch is used to monitor SNS metrics and EC2 logs.”
+
+Why did you use SNS?
+“SNS is a fully managed messaging service.
+It is scalable, reliable, and supports multiple subscribers like email, SMS, or Lambda.
+In my project, SNS is used to send notifications to patients without managing any messaging servers.”
+
+why not email directly from EC2: “SNS is more reliable and decoupled.
+It allows multiple subscribers and retries automatically, unlike direct email sending.”
+
+Security explanation:
+“For security, I used IAM roles instead of access keys on EC2.
+The role has only SNS publish permission, following the principle of least privilege.
+Security groups restrict inbound and outbound traffic at the VPC level.”
+
+Monitoring & logging question
+
+If they ask “How did you monitor it?”:
+“SNS provides CloudWatch metrics like number of messages published and delivery success.
+Since SNS does not generate logs by default, Lambda can be added if message-level logging is required.”
+
+Cost & free-tier awareness:
+“I ensured the project stays within free tier by avoiding NAT Gateway and Load Balancers.
+After testing, I cleaned up all resources using CloudFormation to avoid unexpected charges.”
+
+issue you faced in this project:
+“While deleting the CloudFormation stack, the VPC deletion failed because a manually created security group still existed.
+CloudFormation only deletes resources it manages.
+After deleting the manual security group, the stack deletion succeeded.”
+
+What would you improve?
+“In a real production system, I would add Lambda for message logging, enable encryption using KMS, use private subnets with NAT Gateway, and add alarms in CloudWatch for failure notifications.”
+
+One-line resume version:	“Built an AWS-based hospital notification system using CloudFormation, EC2, SNS, IAM, and CloudWatch with secure access control and cost-optimized architecture.”
+
