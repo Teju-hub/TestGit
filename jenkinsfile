@@ -1,1 +1,12 @@
-This is for jenkins
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo "Building from dev branch"
+            }
+        }
+    }
+}
+
